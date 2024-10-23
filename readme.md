@@ -26,6 +26,27 @@ Install project dependencies:
 uv sync
 ```
 
+### Dev Environment
+
+Start the dev environment server:
+
+```
+make dev
+```
+
+### Corpus Ingest
+
+Ingest a corpus of documents using the command line:
+
+```
+./scripts/corpus-utils ingest --help
+```
+
+List all available corpora, with links to corpus files and corpus query:
+
+![Corpus List Example](https://ik.imagekit.io/notme001/readme/corpus_list_example.png "corpus list example")
+
+
 ### RAG Example
 
 Ingest documents, tokenize them and store them in a Qdrant database.  Run a query, find matches in Qdrant database, and then use these matches as context in a RAG query to an LLM.  The embed models are LLM are all run locally to address security concerns.
