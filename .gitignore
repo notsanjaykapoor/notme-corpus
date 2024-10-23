@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.code-workspace
+.env*
+.venv*
+.vscode
+
+sqlite*
+
+data/
+downloads/
+env/
+logs/
+**/*secret*.yml
+.snaplet/snapshots
+.snaplet/structure.d.ts

@@ -1,0 +1,54 @@
+[project]
+name = "notme-corpus"
+version = "0.1.0"
+description = "rag, corpus tools"
+readme = "readme.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=0.34.2",
+    "clip>=0.3.0",
+    "coloredlogs>=15.0.1",
+    "factory-boy>=3.3.1",
+    "fastapi>=0.115.0",
+    "geoalchemy2>=0.15.2",
+    "itsdangerous>=2.2.0",
+    "llama-cpp-python>=0.3.0",
+    "llama-index>=0.11.17",
+    "llama-index-core==0.11.17",
+    "llama-index-embeddings-clip==0.2.0",
+    "llama-index-embeddings-huggingface>=0.2.3",
+    "more-itertools>=10.5.0",
+    "psycopg2-binary>=2.9.9",
+    "pydantic>=2.9.2",
+    "pytest-mock>=3.14.0",
+    "pytest>=8.3.3",
+    "python-dotenv>=1.0.1",
+    "qdrant-client>=1.11.3",
+    "requests-oauthlib>=2.0.0",
+    "requests>=2.32.3",
+    "sqlmodel>=0.0.22",
+    "toml>=0.10.2",
+    "torch==2.2.2",
+    "ulid-py>=1.1.0",
+    "uvicorn>=0.30.6",
+    "wget>=3.2",
+    "ruff>=0.7.0",
+    "polars>=1.10.0",
+]
+
+[tool.ruff]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = ["E402"]
+
+line-length = 180
+
+[tool.ruff.isort]
+force-sort-within-sections = true
+order-by-type = true
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+
+[tool.uv.sources]
+clip = { git = "https://github.com/openai/CLIP.git" }
