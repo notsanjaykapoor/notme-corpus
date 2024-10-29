@@ -4,6 +4,7 @@ import typing
 import contextlib
 import fastapi
 import fastapi.middleware.cors
+import fastapi.staticfiles
 import fastapi.templating
 import sqlmodel
 import starlette.middleware.sessions
@@ -35,6 +36,7 @@ async def lifespan(app: fastapi.FastAPI):
 # create app object
 app = fastapi.FastAPI(lifespan=lifespan)
 
+app.mount("/static", fastapi.staticfiles.StaticFiles(directory="static"), name="static")
 
 # db dependency
 def get_db():
@@ -75,6 +77,16 @@ async def add_request_id(request: fastapi.Request, call_next):
     context.rid_set(ulid.new().str)
     response = await call_next(request)
     return response
+
+
+@app.get("/favicon.ico")
+def favicon():
+    file_name = "favicon.ico"
+    file_path = os.path.join(app.root_path, "static", file_name)
+    return fastapi.responses.FileResponse(
+        path=file_path,
+        headers={"Content-Disposition": "attachment; filename=" + file_name},
+    )
 
 
 @app.get("/")
