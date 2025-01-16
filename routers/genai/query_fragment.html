@@ -1,0 +1,20 @@
+<div class="col-start-2 col-span-10 mt-0">
+    <p class="text-xs italic font-bold text-black-700 py-2" id="genai-query-processing" style="display: none">
+        processing ...
+    </p>
+</div>
+
+<div class="col-start-2 col-span-10 mt-0" id="genai-query-status">
+    {% if query_ok %}
+        <p class="text-xs italic font-bold text-black-700 py-2">{{query_ok}}</p>
+    {% endif %}
+    {% if query_error %}
+        <p class="text-xs italic font-bold text-red-700 py-2">{{query_error}}</p>
+    {% endif %}
+</div>
+
+<div class="col-start-2 col-span-10 mt-0" id="genai-query-response">
+    <p class="text-xs italic font-bold text-blue-700 py-5">
+        {{query_response}}
+    </p>
+</div>

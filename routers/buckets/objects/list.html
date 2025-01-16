@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container grid grid-cols-12">
+    <div class="col-span-12 mt-10">
+        <h3 class="font-bold text-center">
+        {{ app_name }}
+        </h3>
+    </div>
+    <div class="col-start-2 col-span-10 mt-2 opacity-50 text-center text-xs text-zinc-400">
+        @{{ app_version }}
+    </div>
+    <div class="col-start-2 col-span-10 px-0 mt-5 mx-0 text-xs text-zinc-400">
+        <a href="/buckets" class="text-blue-700 font-bold">
+        buckets
+        </a>
+        &nbsp;/&nbsp;{{bucket_name}}
+    </div>
+</div>
+
+<div class="container grid grid-cols-12 mt-10" id="buckets-table">
+    {% include "buckets/objects/list_table.html" %}
+</div>
+
+{% endblock %}

@@ -49,8 +49,9 @@ async def get_gql_context(db=fastapi.Depends(get_db)):
     return {"db": db}
 
 
-# app.include_router(routers.admin.app)
+app.include_router(routers.buckets.app)
 app.include_router(routers.corpus.app)
+app.include_router(routers.genai.app)
 app.include_router(routers.health.app)
 app.include_router(routers.images.app)
 app.include_router(routers.rag.app)
