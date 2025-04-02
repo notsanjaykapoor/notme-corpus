@@ -3,23 +3,22 @@ VENV = .venv
 PIP = pip
 PYTHON = $(VENV)/bin/python3
 
-.PHONY: build clean dev dev-docker install test
+.PHONY: build clean dev install test
 
 build:
 	./scripts/vps/vps-utils build
 
 dev:
-	. $(VENV)/bin/activate && ./bin/app-server --port 8005
+	supervisord -c supervisor/dev.conf
 
-docker:
-	docker compose -f docker-compose.yml up -d --no-recreate qdrant
-	docker compose -f docker-compose.yml up -d --no-recreate typesense
+dev-server:
+	. $(VENV)/bin/activate && ./bin/app-server --port 8005
 
 install: pyproject.toml
 	uv sync
 
 prd:
-	. $(VENV)/bin/activate && ./bin/app-server --port 8001
+	. $(VENV)/bin/activate && ./bin/app-server --port 8005
 
 test:
 	. $(VENV)/bin/activate && pytest

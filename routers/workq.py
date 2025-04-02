@@ -32,11 +32,6 @@ def workq_list(
     db_session: sqlmodel.Session = fastapi.Depends(main_shared.get_db),
 ):
     """ """
-    if "HX-Request" in request.headers:
-        htmx_request = 1
-    else:
-        htmx_request = 0
-
     logger.info(f"{context.rid_get()} workq query '{query}'")
 
     try:
@@ -52,7 +47,7 @@ def workq_list(
         query_result = f"exception {e}"
         logger.error(f"{context.rid_get()} workq exception '{e}'")
 
-    if htmx_request == 1:
+    if "HX-Request" in request.headers:
         template = "workq/list_table.html"
     else:
         template = "workq/list.html"
@@ -75,7 +70,7 @@ def workq_list(
         logger.error(f"{context.rid_get()} workq render exception '{e}'")
         return templates.TemplateResponse(request, "500.html", {})
 
-    if htmx_request == 1:
+    if "HX-Request" in request.headers:
         response.headers["HX-Push-Url"] = f"{request.get('path')}?query={query}"
 
     return response

@@ -35,7 +35,6 @@ def corpus_query(
     request: fastapi.Request,
     mode: str = "image-caption",
     query: str = "",
-    db_session: sqlmodel.Session = fastapi.Depends(main_shared.get_db),
 ):
     modes_map = {
         "image-caption-long": "Describe this image with a detailed description.",

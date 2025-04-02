@@ -15,4 +15,4 @@ ARG APP_VERSION
 ENV APP_VERSION=$APP_VERSION
 WORKDIR /app
 ADD . ./
-RUN uv sync --frozen
+RUN uv sync --no-dev --frozen

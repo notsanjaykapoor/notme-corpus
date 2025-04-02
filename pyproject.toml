@@ -23,8 +23,6 @@ dependencies = [
     "polars>=1.10.0",
     "psycopg2-binary>=2.9.9",
     "pydantic>=2.9.2",
-    "pytest-mock>=3.14.0",
-    "pytest>=8.3.3",
     "python-dotenv>=1.0.1",
     "qdrant-client>=1.11.3",
     "requests-oauthlib>=2.0.0",
@@ -36,6 +34,14 @@ dependencies = [
     "ulid-py>=1.1.0",
     "uvicorn>=0.30.6",
     "wget>=3.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-mock>=3.14.0",
+    "pytest>=8.3.3",
+    "supervisor>=4.2.5",
+    "supervisor-stdout",
 ]
 
 [tool.ruff]
@@ -54,3 +60,4 @@ order-by-type = true
 
 [tool.uv.sources]
 clip = { git = "https://github.com/openai/CLIP.git" }
+supervisor-stdout = { git = "https://github.com/coderanger/supervisor-stdout" }

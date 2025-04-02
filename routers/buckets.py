@@ -58,7 +58,7 @@ def bucket_objects_list(
             request,
             "buckets/objects/list.html",
             {
-                "app_name": "Bucket Contents",
+                "app_name": "Bucket Blobs",
                 "app_version": app_version,
                 "blobs_list": blobs_list,
                 "bucket_name": bucket_name,

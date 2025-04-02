@@ -8,6 +8,7 @@ import context
 import log
 import models
 import main_shared
+import services.corpus.fs
 import services.corpus.models
 import services.qdrant
 import services.work_queue

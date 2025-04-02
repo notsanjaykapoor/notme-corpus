@@ -31,7 +31,7 @@ def files(source_uri: str, filter: str) -> Struct:
         local_dir = source_uri
 
     for file in os.listdir(local_dir):
-        if file and not re.search(filter, file):
+        if file and not re.search(rf"{filter}", file):
             continue # file excluded by filter
 
         local_path = f"{local_dir}/{file}"

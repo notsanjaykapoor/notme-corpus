@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source .venv/bin/activate
+exec ./bin/corpus-ingest-worker run --queue corpus-ingest --partition 0
