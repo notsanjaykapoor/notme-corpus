@@ -2,18 +2,20 @@
 
 {% block content %}
 
-<div class="container grid grid-cols-12">
-    <div class="col-span-12 mt-10">
-        <h3 class="font-bold text-center">
+<div class="flex flex-col mx-auto mt-10">
+    <h3 class="font-bold text-center">
         {{ app_name }}
-        </h3>
-    </div>
-    <div class="col-start-2 col-span-10 mt-2 opacity-50 text-center text-xs text-zinc-400">
+    </h3>
+    <div class="mt-2 mx-auto text-xs text-zinc-400">
         @{{ app_version }}
     </div>
-    <div class="col-start-2 col-span-10 px-0 mt-5 mx-0 text-xs text-zinc-400">
+</div>
+
+<div class="flex flex-row mx-auto mt-10">
+    <div class="w-1/12"></div>
+    <div class="w-10/12 text-xs">
         <a href="/corpus" class="text-blue-700 font-bold">
-        corpus
+            corpus
         </a>
         &nbsp;/&nbsp;
         {% if corpus.id %}
@@ -27,24 +29,23 @@
     </div>
 </div>
 
-<div class="container grid grid-cols-12 mt-10">
+<div class="flex flex-col mx-auto mt-0 mb-20 xs:w-full sm:w-full">
     {% include "corpus/files_table.html" %}
 </div>
 
-<div class="container grid grid-cols-12 mt-5">
-    <div class="col-start-2 col-span-10 px-0 mt-5 mx-0 text-center">
-        {% if not corpus or (corpus and corpus.ingestable == 0) %}
-        <a href="/corpus/ingest?source_uri={{source_uri}}">
-            <button type="button" class="focus:outline-none text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">
+<div class="flex flex-col mx-auto mt-5 xs:w-full sm:w-full text-center">
+    {% if not corpus or (corpus and corpus.ingestable == 0) %}
+    <a href="/corpus/ingest?source_uri={{source_uri}}">
+        <button type="button"
+            class="focus:outline-none text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">
             {% if corpus %}
-                Re-Ingest
+            Re-Ingest
             {% else %}
-                Ingest
+            Ingest
             {% endif %}
-            </button>  
-        </a>
-        {% endif %}
-    </div>
+        </button>
+    </a>
+    {% endif %}
 </div>
 
 {% endblock %}

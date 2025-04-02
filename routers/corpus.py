@@ -9,6 +9,7 @@ import log
 import models
 import main_shared
 import services.corpus.models
+import services.qdrant
 import services.work_queue
 
 logger = log.init("app")
@@ -107,6 +108,8 @@ def corpus_list(
 
     logger.info(f"{context.rid_get()} corpus query '{query}'")
 
+    qdrant_url = services.qdrant.qdrant_dashboard_url()
+
     try:
         # get corpus list
         list_result = services.corpus.list(
@@ -157,6 +160,7 @@ def corpus_list(
                 "app_version": app_version,
                 "corpus_list": corpus_list,
                 "prompt_text": "search",
+                "qdrant_url": qdrant_url,
                 "query": query,
                 "query_code": query_code,
                 "query_result": query_result,

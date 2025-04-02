@@ -2,26 +2,33 @@
 
 {% block content %}
 
-<div class="container grid grid-cols-12">
-    <div class="col-span-12 mt-10">
-        <h3 class="font-bold text-center">
+<div class="flex flex-col mx-auto mt-10">
+    <h3 class="font-bold text-center">
         {{ app_name }}
-        </h3>
-    </div>
-    <div class="col-start-2 col-span-10 mt-2 opacity-50 text-center text-xs text-zinc-400">
+    </h3>
+    <div class="mt-2 mx-auto text-xs text-zinc-400">
         @{{ app_version }}
     </div>
 </div>
 
 <form>
-    <div class="container grid grid-cols-12 mt-10">
-        <div class="col-start-2 col-span-4 font-normal text-xs mx-0">
-        <input type="search" id="corpus-search" name="query" value="{{query}}" placeholder="{{prompt_text}}" autocomplete="off" hx-get="/corpus" hx-target="#corpus-table" hx-trigger="input changed delay:750ms, search" class="peer px-0 py-2.5 mx-0 h-full w-full border-b bg-transparent font-sans text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-pink-600 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+    <div class="flex flex-row mx-auto mt-10">
+        <div class="w-1/12"></div>
+        <div class="w-4/12 font-normal text-xs">
+            <input type="search" id="corpus-search" name="query" value="{{query}}" placeholder="{{prompt_text}}"
+                autocomplete="off" hx-get="/corpus" hx-target="#corpus-table"
+                hx-trigger="input changed delay:750ms, search"
+                class="peer px-0 py-2.5 mx-0 h-full w-full border-b bg-transparent font-sans text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-sky-400 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+        </div>
+        <div class="w-6/12 flex justify-end items-center font-normal text-xs">
+            <a class="font-bold mt-2 text-blue-700" href="{{qdrant_url}}" target="_href">
+                qdrant console
+            </a>
         </div>
     </div>
 </form>
 
-<div class="container grid grid-cols-12 mt-10" id="corpus-table">
+<div class="flex flex-col mx-auto mt-0 mb-20 xs:w-full sm:w-full" id="corpus-table">
     {% include "corpus/list_table.html" %}
 </div>
 

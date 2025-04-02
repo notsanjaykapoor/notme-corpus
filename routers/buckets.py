@@ -10,6 +10,7 @@ import context
 import log
 import main_shared
 import services.gemini
+import services.storage.gcs
 
 logger = log.init("app")
 
@@ -29,7 +30,6 @@ app_version = os.environ["APP_VERSION"]
 def bucket_objects_list(
     request: fastapi.Request,
     bucket_name: str,
-    db_session: sqlmodel.Session = fastapi.Depends(main_shared.get_db),
 ):
     """ """
     logger.info(f"{context.rid_get()} bucket '{bucket_name}' objects")
@@ -38,7 +38,7 @@ def bucket_objects_list(
         gcs_client = google.cloud.storage.Client()
         blobs_list = gcs_client.list_blobs(bucket_name)
 
-        # iterate once to fetch objects
+        # iterate once to fetch objects, and filter
         blobs_list = [blob for blob in blobs_list]
 
         # get list of uploaded gemini files
@@ -58,7 +58,7 @@ def bucket_objects_list(
             request,
             "buckets/objects/list.html",
             {
-                "app_name": "Buckets",
+                "app_name": "Bucket Contents",
                 "app_version": app_version,
                 "blobs_list": blobs_list,
                 "bucket_name": bucket_name,
@@ -81,35 +81,30 @@ def bucket_objects_list(
 @app.get("/buckets", response_class=fastapi.responses.HTMLResponse)
 def buckets_list(
     request: fastapi.Request,
-    query: str = "",
-    db_session: sqlmodel.Session = fastapi.Depends(main_shared.get_db),
 ):
     """ """
-    if "HX-Request" in request.headers:
-        htmx_request = 1
-        html_template = "buckets/list_table.html"
-    else:
-        htmx_request = 0
-        html_template = "buckets/list.html"
+    logger.info(f"{context.rid_get()} buckets list")
 
-    logger.info(f"{context.rid_get()} buckets list query '{query}'")
+    bucket_name = services.storage.gcs.bucket_name()
+
+    # redirect to single and only bucket
+    return fastapi.responses.RedirectResponse(f"/buckets/{bucket_name}")
 
     try:
         gcs_client = google.cloud.storage.Client()
         buckets_list = gcs_client.list_buckets()
 
-        if query:
-            buckets_list = [bucket for bucket in buckets_list if re.search(rf"{query}", bucket.name)]
-        else: # iterate once
-            buckets_list = [bucket for bucket in buckets_list]
-
-        query_code = 0
-        query_result = f"query '{query}' returned {len(buckets_list)} results"
+        # filter buckets
+        buckets_list = [bucket for bucket in buckets_list if re.search(rf"{bucket_name}", bucket.name)]
     except Exception as e:
         buckets_list = []
-        query_code = 400
-        query_result = f"exception {e}"
         logger.error(f"{context.rid_get()} buckets list exception '{e}'")
+
+
+    if "HX-Request" in request.headers:
+        html_template = "buckets/list_table.html"
+    else:
+        html_template = "buckets/list.html"
 
     try:
         response = templates.TemplateResponse(
@@ -120,18 +115,12 @@ def buckets_list(
                 "app_version": app_version,
                 "buckets_list": buckets_list,
                 "prompt_text": "search",
-                "query": query,
-                "query_code": query_code,
-                "query_result": query_result,
             },
         )
     except Exception as e:
         logger.error(f"{context.rid_get()} buckets list render exception '{e}'")
         return templates.TemplateResponse(request, "500.html", {})
 
-    logger.info(f"{context.rid_get()} buckets list query '{query}' ok")
-
-    if htmx_request == 1:
-        response.headers["HX-Push-Url"] = f"{request.get('path')}?query={query}"
+    logger.info(f"{context.rid_get()} buckets list ok")
 
     return response

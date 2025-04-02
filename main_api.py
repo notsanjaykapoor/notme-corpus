@@ -14,7 +14,6 @@ import dot_init  # noqa: F401
 
 import context  # noqa: E402
 import log  # noqa: E402
-import models  # noqa: E402
 import routers
 import services.database.session  # noqa: E402
 
@@ -31,6 +30,8 @@ async def lifespan(app: fastapi.FastAPI):
     logger.info("api.startup completed")
 
     yield
+
+    logger.info("api.shutdown completed")
 
 
 # create app object
