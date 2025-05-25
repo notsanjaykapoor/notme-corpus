@@ -1,20 +1,29 @@
-<div class="col-start-2 col-span-10 mt-0">
-    <p class="text-xs italic font-bold text-black-700 py-2" id="genai-query-processing" style="display: none">
-        processing ...
-    </p>
+<div class="flex flex-row mt-5">
+    <div class="w-1/12"></div>
+    <div class="w-10/12">
+        <p class="text-xs italic font-bold text-black-700 py-2" id="genai-query-processing" style="display: none">
+            processing ...
+        </p>
+    </div>
 </div>
 
-<div class="col-start-2 col-span-10 mt-0" id="genai-query-status">
-    {% if query_ok %}
+<div class="flex flex-row mt-0">
+    <div class="w-1/12"></div>
+    <div class="w-10/12 mt-0" id="genai-query-status">
+        {% if query_ok %}
         <p class="text-xs italic font-bold text-black-700 py-2">{{query_ok}}</p>
-    {% endif %}
-    {% if query_error %}
+        {% endif %}
+        {% if query_error %}
         <p class="text-xs italic font-bold text-red-700 py-2">{{query_error}}</p>
-    {% endif %}
+        {% endif %}
+    </div>
 </div>
 
-<div class="col-start-2 col-span-10 mt-0" id="genai-query-response">
-    <p class="text-xs italic font-bold text-blue-700 py-5">
-        {{query_response}}
-    </p>
+<div class="flex flex-row mt-5">
+    <div class="w-1/12"></div>
+    <div class="w-10/12 mt-0" id="genai-query-response">
+        <p class="text-xs italic font-bold text-blue-700 py-5">
+            {{query_response}}
+        </p>
+    </div>
 </div>
