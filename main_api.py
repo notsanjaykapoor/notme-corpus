@@ -5,7 +5,6 @@ import contextlib
 import fastapi
 import fastapi.middleware.cors
 import fastapi.staticfiles
-import fastapi.templating
 import sqlmodel
 import starlette.middleware.sessions
 import ulid
@@ -51,6 +50,7 @@ async def get_gql_context(db=fastapi.Depends(get_db)):
 
 
 app.include_router(routers.buckets.app)
+app.include_router(routers.claude.app)
 app.include_router(routers.corpus.app)
 app.include_router(routers.genai.app)
 app.include_router(routers.health.app)

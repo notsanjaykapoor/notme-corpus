@@ -3,12 +3,13 @@ import re
 
 import fastapi
 import fastapi.responses
+import fastapi.templating
 import google.cloud.storage
-import sqlmodel
 
 import context
 import log
 import main_shared
+import services.anthropic
 import services.gemini
 import services.storage.gcs
 
@@ -42,13 +43,17 @@ def bucket_objects_list(
         blobs_list = [blob for blob in blobs_list]
 
         # get list of uploaded gemini files
-        genai_files = services.gemini.files_list()
-        genai_file_names = [file.display_name for file in genai_files]
+        gemini_file_names = [file.display_name for file in services.gemini.files_list()]
+
+        # get list of uploaded claude files
+        claude_file_names = [file.filename for file in services.anthropic.files_list()]
 
         query_code = 0
         query_result = f"bucket '{bucket_name}' objects"
     except Exception as e:
         blobs_list = []
+        claude_file_names = []
+        gemini_file_names = []
         query_code = 400
         query_result = f"exception {e}"
         logger.error(f"{context.rid_get()} bucket '{bucket_name}' objects exception '{e}'")
@@ -58,12 +63,12 @@ def bucket_objects_list(
             request,
             "buckets/objects/list.html",
             {
-                "app_name": "Bucket Blobs",
+                "app_name": "Blobs",
                 "app_version": app_version,
                 "blobs_list": blobs_list,
                 "bucket_name": bucket_name,
-                "genai_files": genai_files,
-                "genai_file_names": genai_file_names,
+                "claude_file_names": claude_file_names,
+                "gemini_file_names": gemini_file_names,
                 "prompt_text": "search",
                 "query_code": query_code,
                 "query_result": query_result,

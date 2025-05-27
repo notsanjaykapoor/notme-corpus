@@ -20,6 +20,7 @@ def files_list():
 
 def genai_model():
     _genai_configure()
+
     return google.generativeai.GenerativeModel(os.environ.get("GOOGLE_GEMINI_MODEL"))
 
 

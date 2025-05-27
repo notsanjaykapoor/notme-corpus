@@ -14,7 +14,7 @@
 <div class="flex flex-row mx-auto mt-10">
     <div class="w-1/12"></div>
     <div class="w-10/12 text-xs text-zinc-400">
-        gemini
+        claude
         &nbsp;/&nbsp;
         query
         &nbsp;/&nbsp;
@@ -26,20 +26,20 @@
     </div>
 </div>
 
-<form id="genai-query-form" hx-get="/genai/query?bucket={{bucket}}&doc={{doc}}"
-    hx-on::before-request="htmx_before_submit(event)" hx-target="#genai-response">
+<form id="claude-query-form" hx-get="/claude/query?bucket={{bucket}}&doc={{doc}}"
+    hx-on::before-request="htmx_before_submit(event)" hx-target="#claude-response">
     <div class="flex flex-row mx-auto mt-10">
         <div class="w-1/12"></div>
         <div class="w-6/12 font-bold text-xs">
-            <input type="search" id="genai-query-input" name="query" value="{{query}}" placeholder="{{query_prompt}}"
+            <input type="search" id="claude-query-input" name="query" value="{{query}}" placeholder="{{query_prompt}}"
                 autocomplete="off"
                 class="peer px-0 py-2.5 mx-0 h-full w-full border-b bg-transparent font-sans text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-sky-400 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
         </div>
     </div>
 </form>
 
-<div class="flex flex-col mx-auto mt-0 mb-20 xs:w-full sm:w-full" id="genai-response">
-    {% include "genai/query_fragment.html" %}
+<div class="flex flex-col mx-auto mt-0 mb-20 xs:w-full sm:w-full" id="claude-response">
+    {% include "claude/query_fragment.html" %}
 </div>
 
 <script type="text/javascript">
@@ -53,9 +53,9 @@
             elements[i].style.visibility = "hidden"
         }
 
-        document.getElementById("genai-query-status").style.visibility = "hidden"
-        document.getElementById("genai-query-response").style.visibility = "hidden"
-        document.getElementById("genai-query-processing").style.display = ''
+        document.getElementById("claude-query-status").style.visibility = "hidden"
+        document.getElementById("claude-query-response").style.visibility = "hidden"
+        document.getElementById("claude-query-processing").style.display = ''
     }
 </script>
 

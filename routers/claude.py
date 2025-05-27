@@ -10,7 +10,7 @@ import google.cloud.storage
 import context
 import log
 import main_shared
-import services.gemini
+import services.anthropic
 
 logger = log.init("app")
 
@@ -26,75 +26,72 @@ app = fastapi.APIRouter(
 app_version = os.environ["APP_VERSION"]
 
 
-@app.get("/genai/query", response_class=fastapi.responses.HTMLResponse)
-def genai_query(
+@app.get("/claude/query", response_class=fastapi.responses.HTMLResponse)
+def claude_query(
     request: fastapi.Request,
     bucket: str,
     doc: str,
     query: str = "",
 ):
     """ """
-    logger.info(f"{context.rid_get()} genai query doc '{bucket}/{doc}' query '{query}' try")
+    logger.info(f"{context.rid_get()} claude query doc '{doc}' query '{query}' try")
 
     page_referer = f"/buckets/{bucket}"
 
+    query_code = 0
+    query_error = ""
     query_ok = ""
+    query_response = ""
 
     try:
         # get doc reference that should already be uploaded
-        genai_files = [file for file in services.gemini.files_list() if file.display_name == doc]
+        files_list = [file for file in services.anthropic.files_list() if file.filename == doc]
 
-        if not genai_files:
+        if not files_list:
             return fastapi.responses.RedirectResponse(page_referer)
-
-        genai_file = genai_files[0]
-        doc_type = genai_file.mime_type
+        
+        anthropic_file = files_list[0]
 
         if query:
             t_start = time.time()
-            genai_model = services.gemini.genai_model()
-            genai_response = genai_model.generate_content([genai_file, query])
+            anthropic_message = services.anthropic.query_doc(file_id=anthropic_file.id, query=query)
             t_secs = round(time.time() - t_start, 2)
 
-            query_response = genai_response.text
-            query_ok = f"gemini query completed in {t_secs}s"
-        else:
-            query_response = ""
-
-        query_code = 0
+            query_response = anthropic_message.content[0].text
+            query_ok = f"anthropic query completed in {t_secs}s"
     except Exception as e:
-        logger.error(f"{context.rid_get()} genai query doc '{doc}' exception '{e}'")
+        logger.error(f"{context.rid_get()} claude query doc '{doc}' exception '{e}'")
         query_code = 500
         query_response = str(e)
 
+    logger.info(f"{context.rid_get()} claude query doc '{doc}' ok")
+
     if "HX-Request" in request.headers:
-        html_template = "genai/query_fragment.html"
+        html_template = "claude/query_fragment.html"
     else:
-        html_template = "genai/query.html"
+        html_template = "claude/query.html"
 
     try:
         response = templates.TemplateResponse(
             request,
             html_template,
             {
-                "app_name": "Gemini",
+                "app_name": "Claude",
                 "app_version": app_version,
                 "bucket": bucket,
                 "doc": doc,
-                "doc_type": doc_type,
                 "page_referer": page_referer,
                 "query": query,
                 "query_code": query_code,
+                "query_error": query_error,
                 "query_ok": query_ok,
                 "query_prompt": "question",
                 "query_response": query_response,
             },
         )
     except Exception as e:
-        logger.error(f"{context.rid_get()} genai query doc '{doc}' render exception '{e}'")
+        logger.error(f"{context.rid_get()} claude query doc '{doc}' render exception '{e}'")
         return templates.TemplateResponse(request, "500.html", {})
-
-    logger.info(f"{context.rid_get()} genai query doc '{doc}' ok")
 
     if "HX-Request" in request.headers:
         response.headers["HX-Push-Url"] = f"{request.get('path')}?bucket={bucket}&doc={doc}&query={query}"
@@ -102,14 +99,14 @@ def genai_query(
     return response
 
 
-@app.put("/genai/upload", response_class=fastapi.responses.HTMLResponse)
-def genai_upload(
+@app.put("/claude/upload", response_class=fastapi.responses.HTMLResponse)
+def claude_upload(
     request: fastapi.Request,
     bucket_name: str,
     blob_name: str,
 ):
     """ """
-    logger.info(f"{context.rid_get()} genai bucket '{bucket_name}' blob '{blob_name}' upload")
+    logger.info(f"{context.rid_get()} claude bucket '{bucket_name}' blob '{blob_name}' upload")
 
     try:
         # get blob contents
@@ -120,9 +117,12 @@ def genai_upload(
         blob_bytes = io.BytesIO(gcs_blob.download_as_bytes())
 
         # upload file
-        _gem_doc = services.gemini.file_upload(name=blob_name, data=blob_bytes, mime_type=gcs_blob.content_type)
+        _result = services.anthropic.file_upload(name=blob_name, data=blob_bytes, mime_type=gcs_blob.content_type)
+
+        logger.info(f"{context.rid_get()} claude bucket '{bucket_name}' blob '{blob_name}' upload ok")
     except Exception as e:
-        logger.error(f"{context.rid_get()} genai bucket '{bucket_name}' blob '{blob_name}' exception '{e}'")
+        logger.error(f"{context.rid_get()} claude bucket '{bucket_name}' blob '{blob_name}' upload exception '{e}'")
+        # claude_file_names = []
 
     redirect_path = request.headers.get("referer")
     response = fastapi.responses.RedirectResponse(redirect_path)

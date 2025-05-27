@@ -1,4 +1,5 @@
 from .buckets import app
+from .claude import app
 from .corpus import app
 from .genai import app
 from .health import app
