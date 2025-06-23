@@ -63,7 +63,7 @@ def bucket_objects_list(
             request,
             "buckets/objects/list.html",
             {
-                "app_name": "Blobs",
+                "app_name": "Bucket",
                 "app_version": app_version,
                 "blobs_list": blobs_list,
                 "bucket_name": bucket_name,
