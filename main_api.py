@@ -56,6 +56,7 @@ app.include_router(routers.genai.app)
 app.include_router(routers.health.app)
 app.include_router(routers.images.app)
 app.include_router(routers.rag.app)
+app.include_router(routers.tools.app)
 app.include_router(routers.workq.app)
 
 app.add_middleware(

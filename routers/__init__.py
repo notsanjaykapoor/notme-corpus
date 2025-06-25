@@ -5,4 +5,5 @@ from .genai import app
 from .health import app
 from .images import app
 from .rag import app
+from .tools import app
 from .workq import app

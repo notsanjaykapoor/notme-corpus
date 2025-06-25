@@ -45,3 +45,31 @@ def query_doc(file_id: str, query: str) -> anthropic.types.message.Message:
     )
 
     return response
+
+
+def query_tools(query: str, tools: list[dict]) -> anthropic.types.message.Message:
+    """
+    Query model with a set of tools that can be used.
+
+    docs: https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview
+    """
+    client = anthropic.Anthropic(
+        api_key=os.environ["ANTHROPIC_API_KEY"],
+        default_headers={},
+    )
+
+    response = client.messages.create(
+        model=MODEL_DEFAULT,
+        max_tokens=MAX_TOKENS_DEFAULT,
+        messages=[
+            {
+                "content": query,
+                "role": "user",
+            }
+        ],
+        tools=tools,
+    )
+
+    print("response", response) #
+
+    return response

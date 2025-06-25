@@ -1,4 +1,4 @@
-<div class="flex flex-row mt-5">
+<div class="flex flex-row mt-2">
     <div class="w-1/12"></div>
     <div class="w-10/12">
         {% if query_code == 0 %}
@@ -14,30 +14,30 @@
     <table class="w-10/12">
         <thead class="font-normal text-left text-xs leading-6 text-zinc-800">
             <tr>
-                <th class="p-4 pr-6 pl-0">name</th>
-                <th class="p-4 pr-6">files</th>
-                <th class="p-4 pr-6">docs</th>
-                <th class="p-4 pr-6">nodes</th>
-                <th class="p-4 pr-6">model</th>
-                <th class="p-4 pr-6">type</th>
-                <th class="p-4 pr-6">epoch</th>
-                <th class="p-4 pr-6">state</th>
-                <th class="p-4 pr-6">files</th>
-                <th class="p-4 pr-6">query</th>
+                <th class="p-4 pl-0">name</th>
+                <th class="p-4">files</th>
+                <th class="p-4">docs</th>
+                <th class="p-4">nodes</th>
+                <th class="p-4">model</th>
+                <th class="p-4">type</th>
+                <th class="p-4">epoch</th>
+                <th class="p-4">state</th>
+                <th class="p-4">files</th>
+                <th class="p-4">query</th>
                 <th class="p-4 pr-0">id</th>
             </tr>
         </thead>
         <tbody>
             {% for corpus in corpus_list %}
             <tr class="group hover:bg-zinc-50 odd:bg-white even:bg-slate-50 text-xs">
-                <td class="p-4 pr-6 pl-0 font-normal">{{corpus.name}}</td>
-                <td class="p-4 pr-6 font-normal">{{corpus.files_count or 0}}</td>
-                <td class="p-4 pr-6 font-normal">{{corpus.docs_count or 0}}</td>
-                <td class="p-4 pr-6 font-norma">{{corpus.nodes_count or 0}}</td>
-                <td class="p-4 pr-6 font-norma">{{corpus.model_name or 'n/a'}}</td>
-                <td class="p-4 pr-6 font-norma">{{corpus.source_type or 'n/a'}}</td>
-                <td class="p-4 pr-6 font-normal">{{corpus.epoch}}</td>
-                <td class="p-4 pr-6 font-normal">
+                <td class="p-4 pl-0 font-normal">{{corpus.name}}</td>
+                <td class="p-4 font-normal text-center">{{corpus.files_count or 0}}</td>
+                <td class="p-4 font-normal text-center">{{corpus.docs_count or 0}}</td>
+                <td class="p-4 font-norma text-center">{{corpus.nodes_count or 0}}</td>
+                <td class="p-4 font-norma">{{corpus.model_name or 'n/a'}}</td>
+                <td class="p-4 font-norma">{{corpus.source_type or 'n/a'}}</td>
+                <td class="p-4 font-normal text-center">{{corpus.epoch}}</td>
+                <td class="p-4 font-normal">
                     {% if corpus.ingestable != 0 %}
                     <span class="text-amber-600 font-bold">
                         {{ corpus.state }}
@@ -46,7 +46,7 @@
                     {{ corpus.state }}
                     {% endif %}
                 </td>
-                <td class="p-4 pr-6 font-normal">
+                <td class="p-4 font-normal">
                     {% if corpus.id == 0 %}
                     {% set corpus_files_href = ["/corpus/", corpus.id, "/files?source_uri=", corpus.source_uri] |
                     join("")
@@ -62,7 +62,7 @@
                         </svg>
                     </a>
                 </td>
-                <td class="p-4 pr-6 font-normal">
+                <td class="p-4 font-normal">
                     {% if corpus.ingestable == 0 %}
                     <a href="/corpus/{{corpus.id}}/query" class="font-bold text-orange-600" title="query corpus">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
@@ -73,7 +73,7 @@
                     </a>
                     {% endif %}
                 </td>
-                <td class="p-4 pr-0 font-normal">{{corpus.id}}</td>
+                <td class="p-4 font-normal text-center">{{corpus.id}}</td>
             </tr>
             {% endfor %}
         </tbody>
