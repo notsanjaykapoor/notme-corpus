@@ -6,11 +6,13 @@ readme = "readme.md"
 requires-python = ">=3.12"
 dependencies = [
     "accelerate>=0.34.2",
+    "anthropic>=0.52.0",
     "clip>=0.3.0",
     "coloredlogs>=15.0.1",
     "factory-boy>=3.3.1",
     "fastapi>=0.115.0",
     "geoalchemy2>=0.15.2",
+    "google-cloud-aiplatform>=1.110.0",
     "google-cloud-storage>=2.19.0",
     "google-generativeai>=0.8.3",
     "itsdangerous>=2.2.0",
@@ -23,6 +25,7 @@ dependencies = [
     "polars>=1.10.0",
     "psycopg2-binary>=2.9.9",
     "pydantic>=2.9.2",
+    "pytorch-utils>=0.5.5",
     "python-dotenv>=1.0.1",
     "qdrant-client>=1.11.3",
     "requests-oauthlib>=2.0.0",
@@ -34,7 +37,6 @@ dependencies = [
     "ulid-py>=1.1.0",
     "uvicorn>=0.30.6",
     "wget>=3.2",
-    "anthropic>=0.52.0",
 ]
 
 [dependency-groups]

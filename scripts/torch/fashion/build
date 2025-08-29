@@ -1,0 +1,4 @@
+#!/bin/sh
+
+docker build -t us-docker.pkg.dev/notme-330419/notme/notme-train-fashion:latest -f scripts/torch/fashion/Dockerfile --platform linux/amd64 .
+docker push us-docker.pkg.dev/notme-330419/notme/notme-train-fashion:latest
